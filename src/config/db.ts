@@ -6,14 +6,14 @@ type connectionObject = {
      isConnected?:number
 }
 
-const connection:connectionObject = {};
+let connection:connectionObject = {};
 
 const connectDB = async () =>{
 
 
      if(connection.isConnected){
           console.log("Db is already connected!!");
-            return 
+          return 
      }
 
      try{

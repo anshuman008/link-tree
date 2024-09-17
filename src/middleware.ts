@@ -1,11 +1,27 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-const isProtectedRoute = createRouteMatcher(['/create(.*)'])
+const protectedRoutes = ['/create'];
 
-export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) auth().protect()
-})
+export async function middleware(req:any) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const { pathname } = req.nextUrl;
 
-export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']
+  // Check if the current route is protected
+  if (protectedRoutes.includes(pathname)) {
+    if (!token) {
+      console.log('Token is not present. Redirecting...');
+      const redirectUrl = new URL('/', req.nextUrl.origin);
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    console.log('Token is present:', token);
+  }
+
+  return NextResponse.next();
 }
+
+// Protect only the '/create' route
+export const config = {
+  matcher: ['/create'],
+};
