@@ -2,6 +2,8 @@ import UserModel, { User } from "@/models/User";
 import connectDB from "@/config/db";
 
 
+
+
 export default class UserRepository{
    private userModel 
 
@@ -10,8 +12,12 @@ export default class UserRepository{
     this.userModel = UserModel;
    }
 
-   async createUser(username:string,email:string):Promise<User>{
-    return await this.userModel.create({username,email});
+
+
+
+  //  links:Url[]
+   async createUser(profilepicture:string,username:string,email:string,bio:string):Promise<User>{
+    return await this.userModel.create({username,email,profilepicture,bio});
    }
 
    async findUser(email:string){
