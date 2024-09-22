@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 
-
 export interface Url extends Document{
     title: string,
+    clicks:number
     url:string,
     description?:string
 }
@@ -19,29 +19,43 @@ const linkSchema: Schema<Url> = new mongoose.Schema({
     },
     description:{
         type:String
+    },
+    clicks:{
+        type:Number,
+        default:0
     }
 })
 
 export interface User extends Document{
+    profilepicture:string,
     username: string,
+    bio?:string,
     email:string,
     links:Url[]
 }
 
-const userSchema = new mongoose.Schema({
-    username:{
-        type:String,
-        required:[true,'please provide the username']
-    },
-    email:{
-        type:String,
-        required:[true,'please provide the email'],
-        unique:[true,'email should be unique']
-    },
-    links:[linkSchema]
+
+const userSchema: Schema<User> = new mongoose.Schema({      
+   profilepicture:{
+    type:String,
+    required:true
+   },
+   username:{
+    type:String,
+    unique:true,
+    required:[true,'user name is required'],
+   },
+   bio:{
+    type:String
+   },
+   email:{
+    type:String,
+    unique:true,
+    required:true
+   },
+   links: [linkSchema]
+
 },{timestamps:true})
-
-
 
 
 

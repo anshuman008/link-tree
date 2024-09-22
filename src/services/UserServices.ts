@@ -2,15 +2,6 @@ import UserRepository from "@/repositories/UserRepository";
 import { url } from "inspector";
 import { string, z } from "zod";
 
-const linkValidation = z.object({
-  title: z
-    .string({ message: "title is required!!" })
-    .trim()
-    .min(5, "atleast 5 chareacters needed")
-    .max(10, "max lenth is 10"),
-  url: z.string({ message: "url is required!!" }),
-  description: z.string({ message: "description is required" }).optional(),
-});
 
 export default class {
   private userRepository;
@@ -19,10 +10,9 @@ export default class {
     this.userRepository = new UserRepository();
   }
 
-  async createUser(username: string, emial: string) {
-    await this.userRepository.createUser(username, emial);
-
-    return "user Created!!";
+  async createUser(profilepicture:string,username:string,bio:string,email:string) {
+    const res = await this.userRepository.createUser(profilepicture, username,email,bio);
+    return res;
   }
 
   async findUser(email: string) {
@@ -40,7 +30,6 @@ export default class {
     try {
       const newLink = { title: title, url: url, description: description };
 
-      linkValidation.parse(newLink);
       const newData = await this.userRepository.addLink(email, newLink);
 
       return newData;
