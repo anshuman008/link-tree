@@ -11,7 +11,7 @@ const NavBar = () => {
       <div className="h-full flex justify-center items-center">Logo</div>
 
        <div className="h-full flex justify-center items-center">{session?.data?.user ? <PrimaryButton children= "SignOut" onClick={() => signOut()}/> : 
-        <PrimaryButton children="SignIn" onClick={()=>signIn()} />
+        <PrimaryButton children="SignIn" onClick={()=>signIn("google",{callbackUrl:"http://localhost:3000/username"})} />
         }</div>
     </div>
   );

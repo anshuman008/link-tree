@@ -31,6 +31,8 @@ export interface User extends Document{
     username: string,
     bio?:string,
     email:string,
+    name:string,
+    views: number,
     links:Url[]
 }
 
@@ -43,10 +45,16 @@ const userSchema: Schema<User> = new mongoose.Schema({
    username:{
     type:String,
     unique:true,
-    required:[true,'user name is required'],
+   },
+   name:{
+    type:String,
    },
    bio:{
     type:String
+   },
+   views:{
+    type:Number,
+    default:0,
    },
    email:{
     type:String,
